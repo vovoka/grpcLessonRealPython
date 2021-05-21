@@ -10,9 +10,17 @@ from recommendations_pb2_grpc import RecommendationsStub
 app = Flask(__name__)
 
 recommendations_host = os.getenv("RECOMMENDATIONS_HOST", "localhost")
+
+# it is needed to run local
+# recommendations_channel = grpc.insecure_channel(f"{recommendations_host}:50051")
+
+# this option is for runnting in docker network
+recommendations_host = os.getenv("RECOMMENDATIONS_HOST", "localhost")
 recommendations_channel = grpc.insecure_channel(
     f"{recommendations_host}:50051"
 )
+
+
 recommendations_client = RecommendationsStub(recommendations_channel)
 
 @app.route("/")
